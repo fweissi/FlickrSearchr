@@ -29,6 +29,7 @@ struct FlickrItemFind: View {
                 }
             }
             .listStyle(.plain)
+            .scrollDismissesKeyboard(.immediately)
             .searchable(text: $searchText, prompt: "find images by tag")
             .onChange(of: searchText) { oldValue, newValue in
                 findImages(with: searchText)
