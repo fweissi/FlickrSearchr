@@ -21,6 +21,7 @@ struct FlickrStoreDetails: View {
             
             Spacer()
         }
+        .padding()
         .navigationTitle(flickrItem.title)
     }
 }
