@@ -11,33 +11,24 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @Query private var savedFlickrItems : [FlickrStore]
+    @Query private var savedFlickrStores : [FlickrStore]
     
     @State private var isShowingRequestDialog: Bool = false
     
     var body: some View {
         NavigationSplitView {
-            if savedFlickrItems.isEmpty {
+            if savedFlickrStores.isEmpty {
                     noContentView
                     .navigationTitle("My Images")
             }
             else {
                 List {
-                    ForEach(savedFlickrItems) { flickrItem in
+                    ForEach(savedFlickrStores) { flickrStore in
                         NavigationLink {
-                            VStack {
-                                FlickrImage(url: URL(string: flickrItem.imageURL)).scaledToFit()
-                                Text(flickrItem.author).font(.subheadline)
-                                (Text("published: ") +
-                                 Text(flickrItem.published, format: Date.FormatStyle(date: .numeric, time: .standard)))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                
-                                Spacer()
-                            }
-                            .navigationTitle(flickrItem.title)
+                            FlickrStoreDetails(flickrItem: flickrStore)
                         } label: {
-                            FlickrImage(url: URL(string: flickrItem.imageURL)).scaledToFit()
+                            FlickrImage(url: URL(string: flickrStore.imageURL)).scaledToFit()
+                                .accessibilityHint(Text("Tap on the image to see more details."))
                         }
                     }
                     .onDelete(perform: deleteItems)
@@ -73,7 +64,7 @@ struct ContentView: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(savedFlickrItems[index])
+                modelContext.delete(savedFlickrStores[index])
             }
         }
     }

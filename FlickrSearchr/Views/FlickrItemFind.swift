@@ -43,6 +43,9 @@ struct FlickrItemFind: View {
                     }
                 }
             }
+            .task {
+                findImages(with: searchText)
+            }
         }
     }
     

@@ -44,7 +44,7 @@ struct FlickrItemDetail: View {
             }
             .buttonStyle(.borderedProminent)
         }
-        .padding(.horizontal)
+        .padding()
         .navigationTitle(flickrItem.title ?? "unknown title")
     }
     
