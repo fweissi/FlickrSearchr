@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FlickrStoreDetails: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     
     var flickrStore: FlickrStore
     
@@ -44,27 +45,41 @@ struct FlickrStoreDetails: View {
         }
         .padding()
         .navigationTitle(title)
+        .navigationBarBackButtonHidden()
         .onAppear {
             set(flickrStore: flickrStore)
         }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(role: .cancel) {
-                    set(flickrStore: flickrStore)
+                    if hasNotChanged {
+                        dismiss()
+                    }
+                    else {
+                        set(flickrStore: flickrStore)
+                    }
                 } label: {
-                    Text("Cancel")
+                    if hasNotChanged {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                            Text("Back").padding(.leading, -5)
+                        }
+                    }
+                    else {
+                        Text("Cancel")
+                    }
                 }
-                .disabled(hasNotChanged)
             }
             
-            
-            ToolbarItem(placement: .confirmationAction) {
-                Button {
-                    save(flickrStore: flickrStore)
-                } label: {
-                    Text("Save").bold()
+            if !hasNotChanged {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button {
+                        save(flickrStore: flickrStore)
+                    } label: {
+                        Text("Save").bold()
+                    }
+                    .disabled(hasNotChanged)
                 }
-                .disabled(hasNotChanged)
             }
         }
     }
