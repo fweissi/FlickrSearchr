@@ -10,14 +10,17 @@ import SwiftData
 
 @Model
 final class FlickrStore {
-    let title: String
-    let width: CGFloat
-    let height: CGFloat
-    let imageURL: String
-    let author: String
-    let published: Date
+    @Attribute(.unique)
+    let id: UUID
+    var title: String
+    var width: CGFloat
+    var height: CGFloat
+    var imageURL: String
+    var author: String
+    var published: Date
     
     init(
+        id: UUID? = nil,
         title: String,
         width: CGFloat,
         height: CGFloat,
@@ -25,6 +28,7 @@ final class FlickrStore {
         author: String,
         published: Date
     ) {
+        self.id = id ?? UUID()
         self.title = title
         self.width = width
         self.height = height

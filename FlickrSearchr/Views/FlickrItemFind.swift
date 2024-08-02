@@ -37,7 +37,7 @@ struct FlickrItemFind: View {
             }
             .navigationTitle("Flickr Images")
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button(role: .cancel) {
                         dismiss()
                     } label: {

@@ -14,6 +14,7 @@ struct ContentView: View {
     @Query private var savedFlickrStores : [FlickrStore]
     
     @State private var isShowingRequestDialog: Bool = false
+    @State private var searchText: String = ""
     
     var body: some View {
         NavigationSplitView {
@@ -23,9 +24,9 @@ struct ContentView: View {
             }
             else {
                 List {
-                    ForEach(savedFlickrStores) { flickrStore in
+                    ForEach(savedFlickrStores.filter({ searchText.isEmpty || $0.title.localizedStandardContains(searchText) })) { flickrStore in
                         NavigationLink {
-                            FlickrStoreDetails(flickrItem: flickrStore)
+                            FlickrStoreDetails(flickrStore: flickrStore)
                         } label: {
                             FlickrImage(url: URL(string: flickrStore.imageURL)).scaledToFit()
                                 .accessibilityHint(Text("Tap on the image to see more details."))
@@ -33,6 +34,7 @@ struct ContentView: View {
                     }
                     .onDelete(perform: deleteItems)
                 }
+                .searchable(text: $searchText, prompt: "filter by title")
                 .navigationTitle("My Images")
 #if os(macOS)
                 .navigationSplitViewColumnWidth(min: 180, ideal: 200)
@@ -54,7 +56,7 @@ struct ContentView: View {
                 }
             }
         } detail: {
-            Text("Select an item")
+            Text("Select an image")
         }
         .sheet(isPresented: $isShowingRequestDialog) {
             FlickrItemFind()
