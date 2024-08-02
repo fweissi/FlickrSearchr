@@ -25,6 +25,7 @@ struct FlickrItemFind: View {
                         FlickrItemDetail(flickrItem: flickrItem)
                     } label: {
                         FlickrImage(url: flickrItem.media?.m).scaledToFit()
+                            .accessibilityHint(Text("Tap on the image named \(flickrItem.title ?? "untitled") to see more details."))
                     }
                 }
             }

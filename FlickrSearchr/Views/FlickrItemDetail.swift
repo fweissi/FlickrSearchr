@@ -24,7 +24,9 @@ struct FlickrItemDetail: View {
                 .font(.headline)
             Text(flickrItem.author ?? "unknown author")
                 .font(.subheadline)
-            Text("image size: (w: \(imageSize.width), h: \(imageSize.height))")
+            let width = Double(imageSize.width) .formatted(.number.precision(.fractionLength(0...2)))
+            let height = Double(imageSize.height) .formatted(.number.precision(.fractionLength(0...2)))
+            Text("image size: (w: \(width), h: \(height))")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             if let publishedDate = flickrItem.published {
